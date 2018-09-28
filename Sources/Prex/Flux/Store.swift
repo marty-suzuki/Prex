@@ -6,20 +6,35 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+import Foundation
+
 open class Store<Mutation: Prex.Mutation> {
     public typealias Action = Mutation.Action
     public typealias State = Mutation.State
 
-    internal private(set) var state: State {
+    private var _state: State {
         didSet {
-            changed?(ChangedValue(new: state, old: oldValue))
+            changed?(ChangedValue(new: _state, old: oldValue))
+        }
+    }
+
+    internal private(set) var state: State {
+        set {
+            defer { lock.unlock() }; lock.lock()
+            _state = newValue
+        }
+        get {
+            defer { lock.unlock() }; lock.lock()
+            return _state
         }
     }
 
     internal var changed: ((ChangedValue<State>) -> ())?
 
+    private let lock: NSLocking = NSRecursiveLock()
+
     public init(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation) {
-        self.state = state
+        self._state = state
 
         dispatcher.handler = { [mutation, weak self] action in
             guard let self = self else {
