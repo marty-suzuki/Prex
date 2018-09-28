@@ -25,6 +25,15 @@
 		37CA818D215EA0D500A448F7 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA814C215E9B9F00A448F7 /* State.swift */; };
 		37CA818E215EA0D500A448F7 /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA814A215E9B8800A448F7 /* Mutation.swift */; };
 		37CA818F215EA0D500A448F7 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA8150215E9C5900A448F7 /* Presenter.swift */; };
+		37CA819E215EA20D00A448F7 /* Prex.h in Headers */ = {isa = PBXBuildFile; fileRef = 37CA8140215E99D700A448F7 /* Prex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37E93291215EA22E00B80D4E /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA8144215E9ADD00A448F7 /* Action.swift */; };
+		37E93292215EA22E00B80D4E /* ActionCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA8146215E9AF500A448F7 /* ActionCreator.swift */; };
+		37E93293215EA22E00B80D4E /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA8148215E9B1500A448F7 /* Dispatcher.swift */; };
+		37E93294215EA22E00B80D4E /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA814E215E9BEB00A448F7 /* Store.swift */; };
+		37E93295215EA22E00B80D4E /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA8152215E9C7700A448F7 /* View.swift */; };
+		37E93296215EA22E00B80D4E /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA814C215E9B9F00A448F7 /* State.swift */; };
+		37E93297215EA22E00B80D4E /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA814A215E9B8800A448F7 /* Mutation.swift */; };
+		37E93298215EA22E00B80D4E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CA8150215E9C5900A448F7 /* Presenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +50,8 @@
 		37CA8178215E9F7C00A448F7 /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		37CA817F215EA02300A448F7 /* Prex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Prex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37CA8182215EA02300A448F7 /* Info-watchOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-watchOS.plist"; sourceTree = "<group>"; };
+		37CA8195215EA15000A448F7 /* Prex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Prex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37CA819D215EA1FA00A448F7 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +63,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		37CA817C215EA02300A448F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37CA8192215EA15000A448F7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -75,6 +93,7 @@
 			children = (
 				37CA8132215E99A600A448F7 /* Prex.framework */,
 				37CA817F215EA02300A448F7 /* Prex.framework */,
+				37CA8195215EA15000A448F7 /* Prex.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,6 +133,7 @@
 		37CA8177215E9F7C00A448F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37CA819D215EA1FA00A448F7 /* Info-tvOS.plist */,
 				37CA8178215E9F7C00A448F7 /* Info-iOS.plist */,
 				37CA8182215EA02300A448F7 /* Info-watchOS.plist */,
 			);
@@ -136,6 +156,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				37CA8187215EA0C800A448F7 /* Prex.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37CA8190215EA15000A448F7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37CA819E215EA20D00A448F7 /* Prex.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +206,24 @@
 			productReference = 37CA817F215EA02300A448F7 /* Prex.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		37CA8194215EA15000A448F7 /* Prex-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37CA819A215EA15000A448F7 /* Build configuration list for PBXNativeTarget "Prex-tvOS" */;
+			buildPhases = (
+				37CA8190215EA15000A448F7 /* Headers */,
+				37CA8191215EA15000A448F7 /* Sources */,
+				37CA8192215EA15000A448F7 /* Frameworks */,
+				37CA8193215EA15000A448F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Prex-tvOS";
+			productName = Prex;
+			productReference = 37CA8195215EA15000A448F7 /* Prex.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -192,6 +238,9 @@
 						LastSwiftMigration = 1000;
 					};
 					37CA817E215EA02300A448F7 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					37CA8194215EA15000A448F7 = {
 						CreatedOnToolsVersion = 10.0;
 					};
 				};
@@ -210,6 +259,7 @@
 			targets = (
 				37CA8131215E99A600A448F7 /* Prex-iOS */,
 				37CA817E215EA02300A448F7 /* Prex-watchOS */,
+				37CA8194215EA15000A448F7 /* Prex-tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +273,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		37CA817D215EA02300A448F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37CA8193215EA15000A448F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -259,6 +316,21 @@
 				37CA818A215EA0D500A448F7 /* Dispatcher.swift in Sources */,
 				37CA818B215EA0D500A448F7 /* Store.swift in Sources */,
 				37CA818D215EA0D500A448F7 /* State.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37CA8191215EA15000A448F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37E93292215EA22E00B80D4E /* ActionCreator.swift in Sources */,
+				37E93291215EA22E00B80D4E /* Action.swift in Sources */,
+				37E93298215EA22E00B80D4E /* Presenter.swift in Sources */,
+				37E93295215EA22E00B80D4E /* View.swift in Sources */,
+				37E93297215EA22E00B80D4E /* Mutation.swift in Sources */,
+				37E93293215EA22E00B80D4E /* Dispatcher.swift in Sources */,
+				37E93294215EA22E00B80D4E /* Store.swift in Sources */,
+				37E93296215EA22E00B80D4E /* State.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +574,62 @@
 			};
 			name = Release;
 		};
+		37CA819B215EA15000A448F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info-tvOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.marty-suzuki.Prex";
+				PRODUCT_NAME = Prex;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		37CA819C215EA15000A448F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info-tvOS.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.marty-suzuki.Prex";
+				PRODUCT_NAME = Prex;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -528,6 +656,15 @@
 			buildConfigurations = (
 				37CA8184215EA02300A448F7 /* Debug */,
 				37CA8185215EA02300A448F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37CA819A215EA15000A448F7 /* Build configuration list for PBXNativeTarget "Prex-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37CA819B215EA15000A448F7 /* Debug */,
+				37CA819C215EA15000A448F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

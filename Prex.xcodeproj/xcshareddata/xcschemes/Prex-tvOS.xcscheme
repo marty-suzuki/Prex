@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "37CA817E215EA02300A448F7"
+               BlueprintIdentifier = "37CA8194215EA15000A448F7"
                BuildableName = "Prex.framework"
-               BlueprintName = "Prex-watchOS"
+               BlueprintName = "Prex-tvOS"
                ReferencedContainer = "container:Prex.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "37CA817E215EA02300A448F7"
+            BlueprintIdentifier = "37CA8194215EA15000A448F7"
             BuildableName = "Prex.framework"
-            BlueprintName = "Prex-watchOS"
+            BlueprintName = "Prex-tvOS"
             ReferencedContainer = "container:Prex.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "37CA817E215EA02300A448F7"
+            BlueprintIdentifier = "37CA8194215EA15000A448F7"
             BuildableName = "Prex.framework"
-            BlueprintName = "Prex-watchOS"
+            BlueprintName = "Prex-tvOS"
             ReferencedContainer = "container:Prex.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
