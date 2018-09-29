@@ -49,10 +49,10 @@ final class SearchPresenterTestCase: XCTestCase {
             XCTFail("actions[1] must be .setIsFetching, but it is \(actions[1])")
         }
 
-//        if case let .addRepositories(_query) = actions[2] {
-//            XCTAssertEqual(_query, query)
+//        if case let .addRepositories(_repos) = actions[2] {
+//            XCTAssertEqual(_repos, [])
 //        } else {
-//            XCTFail("actions.first must be .setQuery, but it is \(actions.first as SearchAction?)")
+//            XCTFail("actions[2] must be .addRepositories, but it is \(actions[2])")
 //        }
 
         if case let .setPagination(_pagination) = actions[3] {
@@ -75,6 +75,22 @@ final class SearchPresenterTestCase: XCTestCase {
         } else {
             XCTFail("actions[5] must be .setFetchDate, but is is \(actions[5])")
         }
+    }
+
+    func testSetIsFetching() {
+        var _change: ValueChange<SearchState>?
+        dependency.view.refrectHandler = { _change = $0 }
+
+        dependency.dispatcher.dispatch(.setIsFetching(true))
+
+        guard let change = _change else {
+            XCTFail("change is nil")
+            return
+        }
+
+        let isFetching = change.valueIfChanged(for: \.isFetching)
+        XCTAssertNotNil(isFetching)
+        XCTAssertTrue(isFetching ?? false)
     }
 }
 
