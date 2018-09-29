@@ -65,7 +65,7 @@ struct SearchMutation: Mutation {
 }
 
 extension ActionCreator where Action == SearchAction {
-    func searchRepositories(query: String, page: Int = 1, session: GitHub.Session = .init()) {
+    func searchRepositories(query: String, page: Int = 1, session: GitHub.Session) {
         dispatch(action: .setQuery(query))
         dispatch(action: .setIsFetching(true))
         session.searchRepositories(query: query, page: page) { [dispatch] result in
@@ -83,7 +83,11 @@ extension ActionCreator where Action == SearchAction {
 }
 
 extension Presenter where Action == SearchAction, State == SearchState {
-    func fetchMore() {
+    func fetchRepositories(query: String, session: GitHub.Session = .init()) {
+        actionCreator.searchRepositories(query: query, session: session)
+    }
+
+    func fetchMoreRepositories(session: GitHub.Session = .init()) {
         guard
             let query = state.query,
             let next = state.pagination?.next,
@@ -94,7 +98,7 @@ extension Presenter where Action == SearchAction, State == SearchState {
             return
         }
 
-        actionCreator.searchRepositories(query: query, page: next)
+        actionCreator.searchRepositories(query: query, page: next, session: session)
     }
 
     func selectedIndexPath(_ indexPath: IndexPath) {

@@ -20,6 +20,10 @@
 		37065707215F2C0C003852EF /* SearchViewController.Prex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37065706215F2C0C003852EF /* SearchViewController.Prex.swift */; };
 		3706570A215F317E003852EF /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37065708215F317E003852EF /* SearchCell.swift */; };
 		3706570B215F317E003852EF /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37065709215F317E003852EF /* SearchCell.xib */; };
+		3706570F215F4D80003852EF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3706570D215F4D80003852EF /* DetailViewController.swift */; };
+		37065710215F4D80003852EF /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3706570E215F4D80003852EF /* DetailViewController.xib */; };
+		37065712215F4E1E003852EF /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37065711215F4E1E003852EF /* WebKit.framework */; };
+		37065714215F54A5003852EF /* DetailViewController.Prex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37065713215F54A5003852EF /* DetailViewController.Prex.swift */; };
 		37932E12215F19640072DB23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37932E11215F19640072DB23 /* AppDelegate.swift */; };
 		37932E17215F19640072DB23 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37932E15215F19640072DB23 /* Main.storyboard */; };
 		37932E19215F19650072DB23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37932E18215F19650072DB23 /* Assets.xcassets */; };
@@ -64,6 +68,10 @@
 		37065706215F2C0C003852EF /* SearchViewController.Prex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.Prex.swift; sourceTree = "<group>"; };
 		37065708215F317E003852EF /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		37065709215F317E003852EF /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
+		3706570D215F4D80003852EF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		3706570E215F4D80003852EF /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		37065711215F4E1E003852EF /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		37065713215F54A5003852EF /* DetailViewController.Prex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.Prex.swift; sourceTree = "<group>"; };
 		37932E0E215F19640072DB23 /* PrexSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrexSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37932E11215F19640072DB23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37932E16215F19640072DB23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37065712215F4E1E003852EF /* WebKit.framework in Frameworks */,
 				370656F0215F19B1003852EF /* Prex.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,6 +106,7 @@
 		370656ED215F19AC003852EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37065711215F4E1E003852EF /* WebKit.framework */,
 				370656EE215F19AC003852EF /* Prex.framework */,
 			);
 			name = Frameworks;
@@ -130,9 +140,20 @@
 		37065705215F2436003852EF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3706570C215F4D6A003852EF /* Detail */,
 				37065704215F2426003852EF /* Search */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		3706570C215F4D6A003852EF /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				3706570D215F4D80003852EF /* DetailViewController.swift */,
+				3706570E215F4D80003852EF /* DetailViewController.xib */,
+				37065713215F54A5003852EF /* DetailViewController.Prex.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		37932E05215F19640072DB23 = {
@@ -260,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3706570B215F317E003852EF /* SearchCell.xib in Resources */,
+				37065710215F4D80003852EF /* DetailViewController.xib in Resources */,
 				37932E1C215F19650072DB23 /* LaunchScreen.storyboard in Resources */,
 				37932E19215F19650072DB23 /* Assets.xcassets in Resources */,
 				37065703215F2419003852EF /* SearchViewController.xib in Resources */,
@@ -281,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3706570F215F4D80003852EF /* DetailViewController.swift in Sources */,
 				37065707215F2C0C003852EF /* SearchViewController.Prex.swift in Sources */,
 				3706570A215F317E003852EF /* SearchCell.swift in Sources */,
 				370656F9215F1A68003852EF /* GitHub.User.swift in Sources */,
@@ -289,6 +312,7 @@
 				370656FD215F2082003852EF /* GitHub.Response.swift in Sources */,
 				370656FF215F20C4003852EF /* GitHub.Session.swift in Sources */,
 				370656F7215F1A5F003852EF /* GitHub.swift in Sources */,
+				37065714215F54A5003852EF /* DetailViewController.Prex.swift in Sources */,
 				37932E12215F19640072DB23 /* AppDelegate.swift in Sources */,
 				370656FB215F2026003852EF /* GitHub.Pagination.swift in Sources */,
 			);
@@ -452,7 +476,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PrexSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -460,6 +485,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.marty-suzuki.PrexSample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -469,7 +495,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PrexSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -477,6 +504,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.marty-suzuki.PrexSample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

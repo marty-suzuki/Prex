@@ -59,6 +59,11 @@ final class SearchViewController: UIViewController {
             }
         }
     }
+
+    private func showDetail(repository: GitHub.Repository) {
+        let vc = DetailViewController(repository: repository)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension SearchViewController: View {
@@ -76,10 +81,14 @@ extension SearchViewController: View {
 
             tableView.reloadData()
 
-            if oldRepositories.count > 0 {
+            if repositoriesCount > 0, oldRepositories.count > 0 {
                 let lastIndexPath = IndexPath(row: oldRepositories.count - 1, section: 0)
                 tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: false)
             }
+        }
+
+        if let repository = change.new.selectedRepository, repository.id != change.old?.selectedRepository?.id {
+            showDetail(repository: repository)
         }
     }
 }
@@ -97,7 +106,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text, !text.isEmpty {
             presenter.actionCreator.dispatch(action: .clearRepositories)
-            presenter.actionCreator.searchRepositories(query: text)
+            presenter.fetchRepositories(query: text)
             presenter.actionCreator.dispatch(action: .setIsEditing(false))
         }
     }
@@ -128,7 +137,7 @@ extension SearchViewController: UITableViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView.contentSize.height - scrollView.bounds.size.height) <= scrollView.contentOffset.y {
-            presenter.fetchMore()
+            presenter.fetchMoreRepositories()
         }
     }
 }
