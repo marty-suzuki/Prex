@@ -3,7 +3,7 @@
 //  PrexSample
 //
 //  Created by marty-suzuki on 2018/09/29.
-//  Copyright © 2018年 marty-suzuki. All rights reserved.
+//  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
 import Prex
@@ -59,14 +59,14 @@ final class DetailPresenter: Presenter<DetailMutation, DetailState, DetailAction
             guard let progress = change.newValue else {
                 return
             }
-            self?.actionCreator.dispatch(action: .setProgress(progress))
+            self?.dispatch(.setProgress(progress))
         }
-        actionCreator.dispatch(action: .setObservation(observation))
+        dispatch(.setObservation(observation))
     }
 
     func setRepository(_ repository: GitHub.Repository) {
-        actionCreator.dispatch(action: .setHTMLURL(repository.htmlURL))
-        actionCreator.dispatch(action: .setName(repository.name))
+        dispatch(.setHTMLURL(repository.htmlURL))
+        dispatch(.setName(repository.name))
     }
 }
 

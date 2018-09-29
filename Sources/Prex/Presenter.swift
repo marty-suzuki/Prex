@@ -10,63 +10,44 @@ import Foundation
 
 // MARK: - Presenter
 
-open class Presenter<Mutation: Prex.Mutation,
-                     State,
-                     Action> where Action == Mutation.Action,
-                                   State == Mutation.State {
-
-    private let view: _WeakAnyView<State>
-    private let store: Store<Mutation>
-
-    public let actionCreator: AnyActionCreator<Action>
+open class Presenter<Mutation: Prex.Mutation, State, Action> where Action == Mutation.Action, State == Mutation.State {
 
     open var state: State {
         return store.state
     }
 
-    public init<View: Prex.View, ActionCreator: Prex.ActionCreator>
-        (view: View,
-         state: State,
-         mutation: Mutation,
-         actionCreator: ActionCreator,
-         dispatcher: Dispatcher<Action>) where View.State == State,
-                                               ActionCreator.Action == Action {
+    private let weakView: _WeakAnyView<State>
+    private let dispatcher: Dispatcher<Action>
+    private let store: Store<Mutation>
+    private let refrectInMain: (ValueChange<State>) -> ()
 
-        self.store = Store(dispatcher: dispatcher, state: state, mutation: mutation)
-        self.actionCreator = AnyActionCreator(actionCreator)
-        self.view = _WeakAnyView(view)
+    public init<View: Prex.View>(view: View, state: State, mutation: Mutation, dispatcher: Dispatcher<Action> = .init()) where View.State == State {
 
-        store.changed = { [weak self] change in
-            self?.refrectInMain(change: change)
+        self.weakView = _WeakAnyView(view)
+        self.dispatcher = dispatcher
+
+        self.refrectInMain = { [weakView] change in
+            if Thread.isMainThread {
+                weakView.refrect(change: change)
+            } else {
+                DispatchQueue.main.async {
+                    weakView.refrect(change: change)
+                }
+            }
         }
+        self.store = Store(dispatcher: dispatcher, state: state, mutation: mutation) { [refrectInMain] in refrectInMain($0) }
     }
 
-    public convenience init<View: Prex.View>
-        (view: View,
-         state: State,
-         mutation: Mutation) where View.State == State {
-        
-        let dispatcher = Dispatcher<Action>()
-        let actionCreator = _ActionCreator(dispatcher: dispatcher)
-        self.init(view: view, state: state, mutation: mutation, actionCreator: actionCreator, dispatcher: dispatcher)
+    public func dispatch(_ action: Action) {
+        dispatcher.dispatch(action)
     }
 
     public func refrect() {
-        refrectInMain(change: ValueChange(new: state, old: nil))
-    }
-
-    private func refrectInMain(change: ValueChange<State>) {
-        if Thread.isMainThread {
-            view.refrect(change: change)
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                self?.view.refrect(change: change)
-            }
-        }
+        refrectInMain(ValueChange(new: state, old: nil))
     }
 }
 
-// MARK: - Private Struct
+// MARK: - _WeakAnyView
 
 private struct _WeakAnyView<State: Prex.State> {
 
@@ -80,19 +61,5 @@ private struct _WeakAnyView<State: Prex.State> {
 
     func refrect(change: ValueChange<State>) {
         _refrect(change)
-    }
-}
-
-
-private struct _ActionCreator<Action: Prex.Action>: Prex.ActionCreator {
-
-    private let dispatcher: Dispatcher<Action>
-
-    init(dispatcher: Dispatcher<Action>) {
-        self.dispatcher = dispatcher
-    }
-
-    func dispatch(action: Action) {
-        dispatcher.dispatch(action: action)
     }
 }

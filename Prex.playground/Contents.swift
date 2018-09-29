@@ -106,12 +106,12 @@ struct CounterMutation: Mutation {
 
 extension Presenter where Action == CounterAction, State == CounterState {
     func increment() {
-        actionCreator.dispatch(action: .increment)
+        dispatch(.increment)
     }
 
     func decrement() {
         if state.count > 0 {
-            actionCreator.dispatch(action: .decrement)
+            dispatch(.decrement)
         }
     }
 }

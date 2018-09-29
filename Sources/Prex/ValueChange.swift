@@ -3,7 +3,7 @@
 //  Prex
 //
 //  Created by marty-suzuki on 2018/09/29.
-//  Copyright © 2018年 marty-suzuki. All rights reserved.
+//  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
 public struct ValueChange<T> {

@@ -8,15 +8,9 @@
 
 import Foundation
 
-final class Store<Mutation: Prex.Mutation> {
-    public typealias Action = Mutation.Action
-    public typealias State = Mutation.State
-
-    private var _state: State {
-        didSet {
-            changed?(ValueChange(new: _state, old: oldValue))
-        }
-    }
+internal final class Store<Mutation: Prex.Mutation> {
+    internal typealias Action = Mutation.Action
+    internal typealias State = Mutation.State
 
     internal private(set) var state: State {
         set {
@@ -29,14 +23,24 @@ final class Store<Mutation: Prex.Mutation> {
         }
     }
 
-    internal var changed: ((ValueChange<State>) -> ())?
+    private var _state: State {
+        didSet {
+            changed(ValueChange(new: _state, old: oldValue))
+        }
+    }
 
+    private let changed: (ValueChange<State>) -> ()
     private let lock: NSLocking = NSRecursiveLock()
+    private lazy var subscription: Subscription = { fatalError("subscription has not initialized yet") }()
 
-    internal init(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation) {
+    deinit {
+        subscription.cancel()
+    }
+
+    internal init(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation, changed: @escaping (ValueChange<State>) -> ()) {
         self._state = state
-
-        dispatcher.handler = { [mutation, weak self] action in
+        self.changed = changed
+        self.subscription = dispatcher.register { [mutation, weak self] action in
             guard let self = self else {
                 return
             }

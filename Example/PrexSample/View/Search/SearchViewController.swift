@@ -3,7 +3,7 @@
 //  PrexSample
 //
 //  Created by marty-suzuki on 2018/09/29.
-//  Copyright © 2018年 marty-suzuki. All rights reserved.
+//  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
 import Prex
@@ -95,19 +95,19 @@ extension SearchViewController: View {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        presenter.actionCreator.dispatch(action: .setIsEditing(true))
+        presenter.setIsEditing(true)
         return true
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        presenter.actionCreator.dispatch(action: .setIsEditing(false))
+        presenter.setIsEditing(false)
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text, !text.isEmpty {
-            presenter.actionCreator.dispatch(action: .clearRepositories)
+            presenter.clearRepositories()
             presenter.fetchRepositories(query: text)
-            presenter.actionCreator.dispatch(action: .setIsEditing(false))
+            presenter.setIsEditing(false)
         }
     }
 }

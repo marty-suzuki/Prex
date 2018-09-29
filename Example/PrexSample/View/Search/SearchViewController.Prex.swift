@@ -3,7 +3,7 @@
 //  PrexSample
 //
 //  Created by marty-suzuki on 2018/09/29.
-//  Copyright © 2018年 marty-suzuki. All rights reserved.
+//  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
 import Prex
@@ -65,19 +65,22 @@ struct SearchMutation: Mutation {
 }
 
 extension Presenter where Action == SearchAction, State == SearchState {
-    func fetchRepositories(query: String, page: Int = 1, session: GitHubSessionProtocol = GitHub.Session()) {
-        actionCreator.dispatch(action: .setQuery(query))
-        actionCreator.dispatch(action: .setIsFetching(true))
+    func fetchRepositories(query: String,
+                           page: Int = 1,
+                           session: GitHubSessionProtocol = GitHub.Session(),
+                           makeDate: @escaping () -> Date = { Date() }) {
+        dispatch(.setQuery(query))
+        dispatch(.setIsFetching(true))
         session.searchRepositories(query: query, page: page) { [weak self] result in
             switch result {
             case let .success(repositories, pagination):
-                self?.actionCreator.dispatch(action: .addRepositories(repositories))
-                self?.actionCreator.dispatch(action: .setPagination(pagination))
+                self?.dispatch(.addRepositories(repositories))
+                self?.dispatch(.setPagination(pagination))
             case let .failure(error):
-                self?.actionCreator.dispatch(action: .setError(error))
+                self?.dispatch(.setError(error))
             }
-            self?.actionCreator.dispatch(action: .setIsFetching(false))
-            self?.actionCreator.dispatch(action: .setFetchDate(Date()))
+            self?.dispatch(.setIsFetching(false))
+            self?.dispatch(.setFetchDate(makeDate()))
         }
     }
 
@@ -87,7 +90,7 @@ extension Presenter where Action == SearchAction, State == SearchState {
             let next = state.pagination?.next,
             state.pagination?.last != nil && !state.isFetching,
             let fetchDate = state.fetchDate,
-            fetchDate.timeIntervalSinceNow < -2
+            fetchDate.timeIntervalSinceNow < -1
         else {
             return
         }
@@ -97,6 +100,14 @@ extension Presenter where Action == SearchAction, State == SearchState {
 
     func selectedIndexPath(_ indexPath: IndexPath) {
         let repository = state.repositories[indexPath.row]
-        actionCreator.dispatch(action: .setSelectedRepository(repository))
+        dispatch(.setSelectedRepository(repository))
+    }
+
+    func setIsEditing(_ isEditing: Bool) {
+        dispatch(.setIsEditing(isEditing))
+    }
+
+    func clearRepositories() {
+        dispatch(.clearRepositories)
     }
 }
