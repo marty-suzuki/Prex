@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class Store<Mutation: Prex.Mutation> {
+final class Store<Mutation: Prex.Mutation> {
     public typealias Action = Mutation.Action
     public typealias State = Mutation.State
 
@@ -33,7 +33,7 @@ open class Store<Mutation: Prex.Mutation> {
 
     private let lock: NSLocking = NSRecursiveLock()
 
-    public init(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation) {
+    internal init(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation) {
         self._state = state
 
         dispatcher.handler = { [mutation, weak self] action in
@@ -42,15 +42,5 @@ open class Store<Mutation: Prex.Mutation> {
             }
             mutation.mutate(action: action, state: &self.state)
         }
-    }
-}
-
-public struct ValueChange<T> {
-    public let new: T
-    public let old: T?
-
-    public func valueIfChanged<Value: Equatable>(for keyPath: KeyPath<T, Value>) -> Value? {
-        let newValue = new[keyPath: keyPath]
-        return newValue == old?[keyPath: keyPath] ? nil : newValue
     }
 }

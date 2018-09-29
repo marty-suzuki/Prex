@@ -8,33 +8,47 @@
 
 import Foundation
 
+// MARK: - Presenter
+
 open class Presenter<Mutation: Prex.Mutation,
                      State,
-                     Action>
-                     where Action == Mutation.Action,
-                           State == Mutation.State {
+                     Action> where Action == Mutation.Action,
+                                   State == Mutation.State {
 
-    private let view: WeakAnyView<State>
+    private let view: _WeakAnyView<State>
     private let store: Store<Mutation>
 
-    public let actionCreator: ActionCreator<Action>
+    public let actionCreator: AnyActionCreator<Action>
 
     open var state: State {
         return store.state
     }
 
-    public init<View: Prex.View>(view: View,
-                                 state: State,
-                                 mutation: Mutation) where View.State == State {
-        let dispatcher = Dispatcher<Action>()
-        let actionCreator = ActionCreator(dispatcher: dispatcher)
+    public init<View: Prex.View, ActionCreator: Prex.ActionCreator>
+        (view: View,
+         state: State,
+         mutation: Mutation,
+         actionCreator: ActionCreator,
+         dispatcher: Dispatcher<Action>) where View.State == State,
+                                               ActionCreator.Action == Action {
+
         self.store = Store(dispatcher: dispatcher, state: state, mutation: mutation)
-        self.actionCreator = actionCreator
-        self.view = WeakAnyView(view)
+        self.actionCreator = AnyActionCreator(actionCreator)
+        self.view = _WeakAnyView(view)
 
         store.changed = { [weak self] change in
             self?.refrectInMain(change: change)
         }
+    }
+
+    public convenience init<View: Prex.View>
+        (view: View,
+         state: State,
+         mutation: Mutation) where View.State == State {
+        
+        let dispatcher = Dispatcher<Action>()
+        let actionCreator = _ActionCreator(dispatcher: dispatcher)
+        self.init(view: view, state: state, mutation: mutation, actionCreator: actionCreator, dispatcher: dispatcher)
     }
 
     public func refrect() {
@@ -52,7 +66,9 @@ open class Presenter<Mutation: Prex.Mutation,
     }
 }
 
-private struct WeakAnyView<State: Prex.State> {
+// MARK: - Private Struct
+
+private struct _WeakAnyView<State: Prex.State> {
 
     private let _refrect: (ValueChange<State>) -> ()
 
@@ -64,5 +80,19 @@ private struct WeakAnyView<State: Prex.State> {
 
     func refrect(change: ValueChange<State>) {
         _refrect(change)
+    }
+}
+
+
+private struct _ActionCreator<Action: Prex.Action>: Prex.ActionCreator {
+
+    private let dispatcher: Dispatcher<Action>
+
+    init(dispatcher: Dispatcher<Action>) {
+        self.dispatcher = dispatcher
+    }
+
+    func dispatch(action: Action) {
+        dispatcher.dispatch(action: action)
     }
 }

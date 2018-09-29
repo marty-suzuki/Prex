@@ -64,27 +64,21 @@ struct SearchMutation: Mutation {
     }
 }
 
-extension ActionCreator where Action == SearchAction {
-    func searchRepositories(query: String, page: Int = 1, session: GitHub.Session) {
-        dispatch(action: .setQuery(query))
-        dispatch(action: .setIsFetching(true))
-        session.searchRepositories(query: query, page: page) { [dispatch] result in
+extension Presenter where Action == SearchAction, State == SearchState {
+    func fetchRepositories(query: String, page: Int = 1, session: GitHub.Session = .init()) {
+        actionCreator.dispatch(action: .setQuery(query))
+        actionCreator.dispatch(action: .setIsFetching(true))
+        session.searchRepositories(query: query, page: page) { [weak self] result in
             switch result {
             case let .success(repositories, pagination):
-                dispatch(.addRepositories(repositories))
-                dispatch(.setPagination(pagination))
+                self?.actionCreator.dispatch(action: .addRepositories(repositories))
+                self?.actionCreator.dispatch(action: .setPagination(pagination))
             case let .failure(error):
-                dispatch(.setError(error))
+                self?.actionCreator.dispatch(action: .setError(error))
             }
-            dispatch(.setIsFetching(false))
-            dispatch(.setFetchDate(Date()))
+            self?.actionCreator.dispatch(action: .setIsFetching(false))
+            self?.actionCreator.dispatch(action: .setFetchDate(Date()))
         }
-    }
-}
-
-extension Presenter where Action == SearchAction, State == SearchState {
-    func fetchRepositories(query: String, session: GitHub.Session = .init()) {
-        actionCreator.searchRepositories(query: query, session: session)
     }
 
     func fetchMoreRepositories(session: GitHub.Session = .init()) {
@@ -98,7 +92,7 @@ extension Presenter where Action == SearchAction, State == SearchState {
             return
         }
 
-        actionCreator.searchRepositories(query: query, page: next, session: session)
+        fetchRepositories(query: query, page: next, session: session)
     }
 
     func selectedIndexPath(_ indexPath: IndexPath) {
