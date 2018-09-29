@@ -29,6 +29,10 @@
 		37932E19215F19650072DB23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37932E18215F19650072DB23 /* Assets.xcassets */; };
 		37932E1C215F19650072DB23 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37932E1A215F19650072DB23 /* LaunchScreen.storyboard */; };
 		37932E27215F19650072DB23 /* PrexSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37932E26215F19650072DB23 /* PrexSampleTests.swift */; };
+		37DEBE89215F8446008FF17B /* SearchViewControllerPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DEBE88215F8446008FF17B /* SearchViewControllerPresenterTestCase.swift */; };
+		37DEBE8B215F847E008FF17B /* Prex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DEBE8A215F847E008FF17B /* Prex.framework */; };
+		37DEBE8E215F8A60008FF17B /* MockActionCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DEBE8D215F8A60008FF17B /* MockActionCreator.swift */; };
+		37DEBE90215F8A75008FF17B /* MockGitHubSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DEBE8F215F8A75008FF17B /* MockGitHubSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +85,10 @@
 		37932E22215F19650072DB23 /* PrexSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrexSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37932E26215F19650072DB23 /* PrexSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrexSampleTests.swift; sourceTree = "<group>"; };
 		37932E28215F19650072DB23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37DEBE88215F8446008FF17B /* SearchViewControllerPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerPresenterTestCase.swift; sourceTree = "<group>"; };
+		37DEBE8A215F847E008FF17B /* Prex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Prex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37DEBE8D215F8A60008FF17B /* MockActionCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockActionCreator.swift; sourceTree = "<group>"; };
+		37DEBE8F215F8A75008FF17B /* MockGitHubSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGitHubSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DEBE8B215F847E008FF17B /* Prex.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +115,7 @@
 		370656ED215F19AC003852EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37DEBE8A215F847E008FF17B /* Prex.framework */,
 				37065711215F4E1E003852EF /* WebKit.framework */,
 				370656EE215F19AC003852EF /* Prex.framework */,
 			);
@@ -192,10 +202,29 @@
 		37932E25215F19650072DB23 /* PrexSampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				37DEBE8C215F8A54008FF17B /* Mock */,
+				37DEBE87215F8316008FF17B /* Search */,
 				37932E26215F19650072DB23 /* PrexSampleTests.swift */,
 				37932E28215F19650072DB23 /* Info.plist */,
 			);
 			path = PrexSampleTests;
+			sourceTree = "<group>";
+		};
+		37DEBE87215F8316008FF17B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				37DEBE88215F8446008FF17B /* SearchViewControllerPresenterTestCase.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		37DEBE8C215F8A54008FF17B /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				37DEBE8D215F8A60008FF17B /* MockActionCreator.swift */,
+				37DEBE8F215F8A75008FF17B /* MockGitHubSession.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,7 +351,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DEBE8E215F8A60008FF17B /* MockActionCreator.swift in Sources */,
 				37932E27215F19650072DB23 /* PrexSampleTests.swift in Sources */,
+				37DEBE89215F8446008FF17B /* SearchViewControllerPresenterTestCase.swift in Sources */,
+				37DEBE90215F8A75008FF17B /* MockGitHubSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +547,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PrexSampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -524,6 +557,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.marty-suzuki.PrexSampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrexSample.app/PrexSample";
@@ -535,7 +569,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PrexSampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -544,6 +579,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.marty-suzuki.PrexSampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrexSample.app/PrexSample";

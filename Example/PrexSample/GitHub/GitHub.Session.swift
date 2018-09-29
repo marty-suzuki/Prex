@@ -8,6 +8,13 @@
 
 import Foundation
 
+typealias GitHubSearchResult = (GitHub.Session.Result<([GitHub.Repository], GitHub.Pagination)>)
+
+protocol GitHubSessionProtocol: AnyObject {
+    @discardableResult
+    func searchRepositories(query: String, page: Int, completion: @escaping (GitHubSearchResult) -> ()) -> URLSessionTask?
+}
+
 extension GitHub {
 
     final class Session {
@@ -82,11 +89,9 @@ extension GitHub {
     }
 }
 
-extension GitHub.Session {
-    typealias SearchResult = (GitHub.Session.Result<([GitHub.Repository], GitHub.Pagination)>)
-
+extension GitHub.Session: GitHubSessionProtocol {
     @discardableResult
-    func searchRepositories(query: String, page: Int, completion: @escaping (SearchResult) -> ()) -> URLSessionTask? {
+    func searchRepositories(query: String, page: Int, completion: @escaping (GitHubSearchResult) -> ()) -> URLSessionTask? {
         let queryItems: [URLQueryItem] = [
             URLQueryItem(name: "q", value: query),
             URLQueryItem(name: "page", value: "\(page)"),

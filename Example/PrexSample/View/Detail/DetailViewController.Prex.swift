@@ -28,10 +28,13 @@ struct DetailMutation: Mutation {
         switch action {
         case let .setHTMLURL(url):
             state.htmlURL = url
+
         case let .setObservation(observation):
             state.observation = observation
+
         case let .setProgress(progress):
             state.progress = progress
+            
         case let .setName(name):
             state.name = name
         }

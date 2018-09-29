@@ -10,6 +10,8 @@ public final class Dispatcher<Action: Prex.Action> {
 
     internal var handler: ((Action) -> ())?
 
+    public init() {}
+
     public func dispatch(action: Action) {
         handler?(action)
     }

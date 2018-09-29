@@ -65,7 +65,7 @@ struct SearchMutation: Mutation {
 }
 
 extension Presenter where Action == SearchAction, State == SearchState {
-    func fetchRepositories(query: String, page: Int = 1, session: GitHub.Session = .init()) {
+    func fetchRepositories(query: String, page: Int = 1, session: GitHubSessionProtocol = GitHub.Session()) {
         actionCreator.dispatch(action: .setQuery(query))
         actionCreator.dispatch(action: .setIsFetching(true))
         session.searchRepositories(query: query, page: page) { [weak self] result in
@@ -81,7 +81,7 @@ extension Presenter where Action == SearchAction, State == SearchState {
         }
     }
 
-    func fetchMoreRepositories(session: GitHub.Session = .init()) {
+    func fetchMoreRepositories(session: GitHubSessionProtocol = GitHub.Session()) {
         guard
             let query = state.query,
             let next = state.pagination?.next,
