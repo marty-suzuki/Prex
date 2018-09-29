@@ -23,9 +23,7 @@ final class DetailViewController: UIViewController {
 
     let webview = WKWebView(frame: .zero, configuration: .init())
 
-    private(set) lazy var presenter = Presenter(view: self,
-                                                state: DetailState(),
-                                                mutation: DetailMutation())
+    private(set) lazy var presenter = DetailPresenter(view: self)
 
     init(repository: GitHub.Repository) {
         super.init(nibName: nil, bundle: nil)

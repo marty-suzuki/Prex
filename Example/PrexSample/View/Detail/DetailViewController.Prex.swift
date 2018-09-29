@@ -41,7 +41,12 @@ struct DetailMutation: Mutation {
     }
 }
 
-extension Presenter where Action == DetailAction, State == DetailState {
+final class DetailPresenter: Presenter<DetailMutation, DetailState, DetailAction> {
+
+    convenience init<View: Prex.View>(view: View) where View.State == DetailState {
+        self.init(view: view, state: .init(), mutation: .init())
+    }
+
     func progressUpdateParams(from progress: Double) -> ProgressUpdateParams {
         let isShown = 0.0..<1.0 ~= progress
         return ProgressUpdateParams(animated: isShown,
@@ -65,8 +70,10 @@ extension Presenter where Action == DetailAction, State == DetailState {
     }
 }
 
-struct ProgressUpdateParams {
-    let animated: Bool
-    let alpha: CGFloat
-    let progress: Float
+extension DetailPresenter {
+    struct ProgressUpdateParams {
+        let animated: Bool
+        let alpha: CGFloat
+        let progress: Float
+    }
 }
