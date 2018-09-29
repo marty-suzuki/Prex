@@ -8,9 +8,9 @@
 
 public final class Dispatcher<Action: Prex.Action> {
 
-    public internal(set) var handler: ((Action) -> ())?
+    internal var handler: ((Action) -> ())?
 
-    public  func dispatch(action: Action) {
+    public func dispatch(action: Action) {
         handler?(action)
     }
 }

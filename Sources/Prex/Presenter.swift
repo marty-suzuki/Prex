@@ -8,31 +8,29 @@
 
 import Foundation
 
-open class Presenter<View: Prex.View,
-                     Mutation: Prex.Mutation,
+open class Presenter<Mutation: Prex.Mutation,
                      State,
                      Action>
-                     where Mutation.State == View.State,
-                           Action == Mutation.Action,
+                     where Action == Mutation.Action,
                            State == Mutation.State {
 
-    private weak var view: View?
+    private let view: WeakAnyView<State>
     private let store: Store<Mutation>
 
     public let actionCreator: ActionCreator<Action>
 
-    public var state: State {
+    open var state: State {
         return store.state
     }
 
-    public init(view: View,
-                state: State,
-                mutation: Mutation) {
+    public init<View: Prex.View>(view: View,
+                                 state: State,
+                                 mutation: Mutation) where View.State == State {
         let dispatcher = Dispatcher<Action>()
         let actionCreator = ActionCreator(dispatcher: dispatcher)
         self.store = Store(dispatcher: dispatcher, state: state, mutation: mutation)
         self.actionCreator = actionCreator
-        self.view = view
+        self.view = WeakAnyView(view)
 
         store.changed = { [weak self] change in
             self?.refrectInMain(change: change)
@@ -45,11 +43,26 @@ open class Presenter<View: Prex.View,
 
     private func refrectInMain(change: ValueChange<State>) {
         if Thread.isMainThread {
-            view?.refrect(change: change)
+            view.refrect(change: change)
         } else {
             DispatchQueue.main.async { [weak self] in
-                self?.view?.refrect(change: change)
+                self?.view.refrect(change: change)
             }
         }
+    }
+}
+
+private struct WeakAnyView<State: Prex.State> {
+
+    private let _refrect: (ValueChange<State>) -> ()
+
+    init<View: Prex.View>(_ view: View) where View.State == State {
+        self._refrect = { [weak view] in
+            view?.refrect(change: $0)
+        }
+    }
+
+    func refrect(change: ValueChange<State>) {
+        _refrect(change)
     }
 }
