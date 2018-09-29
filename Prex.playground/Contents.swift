@@ -75,9 +75,10 @@ final class CounterViewController: UIViewController {
 // MARK: - Prex implementation
 
 extension CounterViewController: View {
-    func refrect(value: ChangedValue<CounterState>) {
-        if value.new.count != value.old?.count {
-            counterLabel.text = "\(value.new.count)"
+    func refrect(change: ValueChange<CounterState>) {
+
+        if let count = change.valueIfChanged(for: \.count) {
+            counterLabel.text = "\(count)"
         }
     }
 }

@@ -14,7 +14,7 @@ open class Store<Mutation: Prex.Mutation> {
 
     private var _state: State {
         didSet {
-            changed?(ChangedValue(new: _state, old: oldValue))
+            changed?(ValueChange(new: _state, old: oldValue))
         }
     }
 
@@ -29,7 +29,7 @@ open class Store<Mutation: Prex.Mutation> {
         }
     }
 
-    internal var changed: ((ChangedValue<State>) -> ())?
+    internal var changed: ((ValueChange<State>) -> ())?
 
     private let lock: NSLocking = NSRecursiveLock()
 
@@ -45,7 +45,12 @@ open class Store<Mutation: Prex.Mutation> {
     }
 }
 
-public struct ChangedValue<T> {
+public struct ValueChange<T> {
     public let new: T
     public let old: T?
+
+    public func valueIfChanged<Value: Equatable>(for keyPath: KeyPath<T, Value>) -> Value? {
+        let newValue = new[keyPath: keyPath]
+        return newValue == old?[keyPath: keyPath] ? nil : newValue
+    }
 }

@@ -34,21 +34,21 @@ open class Presenter<View: Prex.View,
         self.actionCreator = actionCreator
         self.view = view
 
-        store.changed = { [weak self] value in
-            self?.refrectInMain(value: value)
+        store.changed = { [weak self] change in
+            self?.refrectInMain(change: change)
         }
     }
 
     public func refrect() {
-        refrectInMain(value: ChangedValue(new: state, old: nil))
+        refrectInMain(change: ValueChange(new: state, old: nil))
     }
 
-    private func refrectInMain(value: ChangedValue<State>) {
+    private func refrectInMain(change: ValueChange<State>) {
         if Thread.isMainThread {
-            view?.refrect(value: value)
+            view?.refrect(change: change)
         } else {
             DispatchQueue.main.async { [weak self] in
-                self?.view?.refrect(value: value)
+                self?.view?.refrect(change: change)
             }
         }
     }
