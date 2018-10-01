@@ -41,10 +41,10 @@ struct DetailMutation: Mutation {
     }
 }
 
-final class DetailPresenter: Presenter<DetailMutation, DetailState, DetailAction> {
+final class DetailPresenter: Presenter<DetailAction, DetailState> {
 
     convenience init<View: Prex.View>(view: View) where View.State == DetailState {
-        self.init(view: view, state: .init(), mutation: .init())
+        self.init(view: view, state: .init(), mutation: DetailMutation())
     }
 
     func progressUpdateParams(from progress: Double) -> ProgressUpdateParams {

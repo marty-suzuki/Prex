@@ -8,9 +8,7 @@
 
 import Foundation
 
-internal final class Store<Mutation: Prex.Mutation> {
-    internal typealias Action = Mutation.Action
-    internal typealias State = Mutation.State
+internal final class Store<State: Prex.State> {
 
     internal private(set) var state: State {
         set {
@@ -37,14 +35,14 @@ internal final class Store<Mutation: Prex.Mutation> {
         subscription.cancel()
     }
 
-    internal init(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation, changed: @escaping (ValueChange<State>) -> ()) {
+    internal init<Action, Mutation: Prex.Mutation>(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation, changed: @escaping (ValueChange<State>) -> ()) where Action == Mutation.Action, State == Mutation.State {
         self._state = state
         self.changed = changed
         self.subscription = dispatcher.register { [mutation, weak self] action in
-            guard let self = self else {
+            guard let me = self else {
                 return
             }
-            mutation.mutate(action: action, state: &self.state)
+            mutation.mutate(action: action, state: &me.state)
         }
     }
 }

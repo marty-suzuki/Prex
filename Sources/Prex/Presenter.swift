@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Presenter
 
-open class Presenter<Mutation: Prex.Mutation, State, Action> where Action == Mutation.Action, State == Mutation.State {
+open class Presenter<Action: Prex.Action, State: Prex.State> {
 
     open var state: State {
         return store.state
@@ -18,10 +18,10 @@ open class Presenter<Mutation: Prex.Mutation, State, Action> where Action == Mut
 
     private let weakView: _WeakAnyView<State>
     private let dispatcher: Dispatcher<Action>
-    private let store: Store<Mutation>
+    private let store: Store<State>
     private let refrectInMain: (ValueChange<State>) -> ()
 
-    public init<View: Prex.View>(view: View, state: State, mutation: Mutation, dispatcher: Dispatcher<Action> = .init()) where View.State == State {
+    public init<View: Prex.View, Mutation: Prex.Mutation>(view: View, state: State, mutation: Mutation, dispatcher: Dispatcher<Action> = .init()) where Mutation.State == State, Mutation.Action == Action, View.State == State {
 
         self.weakView = _WeakAnyView(view)
         self.dispatcher = dispatcher
