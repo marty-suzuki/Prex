@@ -98,8 +98,8 @@ extension Presenter where Action == SearchAction, State == SearchState {
         fetchRepositories(query: query, page: next, session: session)
     }
 
-    func selectedIndexPath(_ indexPath: IndexPath) {
-        let repository = state.repositories[indexPath.row]
+    func selectedIndexPath(_ indexPath: IndexPath?) {
+        let repository = indexPath.map { state.repositories[$0.row] }
         dispatch(.setSelectedRepository(repository))
     }
 

@@ -43,6 +43,12 @@ final class SearchViewController: UIViewController {
         navigationItem.titleView = searchBar
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        presenter.selectedIndexPath(nil)
+    }
+
     private func refrectEditing() {
         UIView.animate(withDuration: 0.3) {
             if self.presenter.state.isEditing {

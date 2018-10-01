@@ -13,8 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    #if swift(>=4.2)
+    typealias UIApplicationLaunchOptionsKey = UIApplication.LaunchOptionsKey
+    #endif
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         guard let navigationController = window?.rootViewController as? UINavigationController else {
             return false
