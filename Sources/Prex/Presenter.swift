@@ -19,10 +19,19 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
     private let dispatcher: Dispatcher<Action>
     private let store: Store<State>
     private let refrectInMain: (ValueChange<State>) -> ()
+    private lazy var subscription: Subscription<State> = { fatalError("canceller has not initialized yet") }()
 
-    public init<View: Prex.View, Mutation: Prex.Mutation>(view: View, state: State, mutation: Mutation, dispatcher: Dispatcher<Action> = .init()) where Mutation.State == State, Mutation.Action == Action, View.State == State {
+    deinit {
+        store.removeListener(with: subscription)
+    }
 
-        self.dispatcher = dispatcher
+    public convenience init<View: Prex.View, Mutation: Prex.Mutation>(view: View, state: State, mutation: Mutation) where Mutation.State == State, Mutation.Action == Action, View.State == State {
+        let flux = Flux(state: state, mutation: mutation)
+        self.init(view: view, flux: flux)
+    }
+
+    public init<View: Prex.View>(view: View, flux: Flux<Action, State>) where View.State == State {
+        self.dispatcher = flux.dispatcher
 
         let _view = _WeakView(view)
         self.refrectInMain = { [_view] change in
@@ -35,7 +44,8 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
             }
         }
 
-        self.store = Store(dispatcher: dispatcher, state: state, mutation: mutation) { [refrectInMain] in refrectInMain($0) }
+        self.store = flux.store
+        self.subscription = store.addListener(callback: { [refrectInMain] in refrectInMain($0) })
     }
 
     public func dispatch(_ action: Action) {

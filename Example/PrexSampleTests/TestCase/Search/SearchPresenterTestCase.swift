@@ -98,15 +98,14 @@ extension SearchPresenterTestCase {
     private struct Dependency {
 
         let view = MockView()
-        let dispatcher = Dispatcher<SearchAction>()
+        let dispatcher: Dispatcher<SearchAction>
         let session = MockGitHubSession()
-        let presenter: Presenter<SearchMutation, SearchState, SearchAction>
+        let presenter: Presenter<SearchAction, SearchState>
 
         init(state: SearchState) {
-            self.presenter = Presenter(view: view,
-                                       state: state,
-                                       mutation: .init(),
-                                       dispatcher: dispatcher)
+            let flux = Flux(state: state, mutation: SearchMutation())
+            self.dispatcher = flux.dispatcher
+            self.presenter = Presenter(view: view, flux: flux)
         }
     }
 

@@ -8,9 +8,11 @@
 
 import Foundation
 
-internal final class Store<State: Prex.State> {
+// MARK: - Store
 
-    internal private(set) var state: State {
+public final class Store<State: Prex.State> {
+
+    public private(set) var state: State {
         set {
             defer { lock.unlock() }; lock.lock()
             _state = newValue
@@ -23,26 +25,62 @@ internal final class Store<State: Prex.State> {
 
     private var _state: State {
         didSet {
-            changed(ValueChange(new: _state, old: oldValue))
+            pubsub.publish(ValueChange(new: _state, old: oldValue))
         }
     }
 
-    private let changed: (ValueChange<State>) -> ()
     private let lock: NSLocking = NSRecursiveLock()
-    private lazy var subscription: Subscription = { fatalError("subscription has not initialized yet") }()
+    private let pubsub = PubSub<ValueChange<State>>()
+    private let dispatcher: _AnyDispatcher
+    private lazy var subscription: _AnySubscription = { fatalError("subscription has not initialized yet") }()
 
     deinit {
-        subscription.cancel()
+        dispatcher.unregister(subscription)
     }
 
-    internal init<Action, Mutation: Prex.Mutation>(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation, changed: @escaping (ValueChange<State>) -> ()) where Action == Mutation.Action, State == Mutation.State {
+    internal init<Action, Mutation: Prex.Mutation>(dispatcher: Dispatcher<Action>, state: State, mutation: Mutation) where Action == Mutation.Action, State == Mutation.State {
         self._state = state
-        self.changed = changed
-        self.subscription = dispatcher.register { [mutation, weak self] action in
+        self.dispatcher = _AnyDispatcher(dispatcher)
+        let subscription = dispatcher.register { [mutation, weak self] action in
             guard let me = self else {
                 return
             }
             mutation.mutate(action: action, state: &me.state)
         }
+        self.subscription = _AnySubscription(subscription)
+    }
+
+    public func addListener(callback: @escaping (ValueChange<State>) -> ()) -> Subscription<State> {
+        let token = pubsub.subscribe(callback)
+        return Subscription<State>(token: token)
+    }
+
+    public func removeListener(with subscription: Subscription<State>) {
+        pubsub.unsubscribe(subscription.token)
+    }
+}
+
+// MARK: - Type Erasure
+
+private struct _AnySubscription {
+    let token: Token
+
+    init<Action: Prex.Action>(_ subscription: Subscription<Action>) {
+        self.token = subscription.token
+    }
+}
+
+private struct _AnyDispatcher {
+    private let _unregister: (_AnySubscription) -> ()
+
+    init<Action: Prex.Action>(_ dispatcher: Dispatcher<Action>) {
+        self._unregister = { [weak dispatcher] in
+            let subscription = Subscription<Action>(token: $0.token)
+            dispatcher?.unregister(subscription)
+        }
+    }
+
+    func unregister(_ subscription: _AnySubscription) {
+        _unregister(subscription)
     }
 }

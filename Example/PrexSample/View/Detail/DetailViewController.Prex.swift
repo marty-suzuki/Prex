@@ -43,8 +43,9 @@ struct DetailMutation: Mutation {
 
 final class DetailPresenter: Presenter<DetailAction, DetailState> {
 
-    init<View: Prex.View>(view: View, dispatcher: Dispatcher<DetailAction> = .init()) where View.State == DetailState {
-        super.init(view: view, state: DetailState(), mutation: DetailMutation(), dispatcher: dispatcher)
+    init<View: Prex.View>(view: View) where View.State == DetailState {
+        let flux = Flux(state: DetailState(), mutation: DetailMutation())
+        super.init(view: view, flux: flux)
     }
 
     func progressUpdateParams(from progress: Double) -> ProgressUpdateParams {

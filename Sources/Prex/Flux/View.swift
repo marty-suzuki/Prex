@@ -8,5 +8,6 @@
 
 public protocol View: AnyObject {
     associatedtype State: Prex.State
+    
     func refrect(change: ValueChange<State>)
 }

@@ -7,6 +7,7 @@
 //
 
 public struct ValueChange<T> {
+    
     public let new: T
     public let old: T?
 
