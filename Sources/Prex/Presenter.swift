@@ -16,25 +16,25 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
         return store.state
     }
 
-    private let weakView: _WeakAnyView<State>
     private let dispatcher: Dispatcher<Action>
     private let store: Store<State>
     private let refrectInMain: (ValueChange<State>) -> ()
 
     public init<View: Prex.View, Mutation: Prex.Mutation>(view: View, state: State, mutation: Mutation, dispatcher: Dispatcher<Action> = .init()) where Mutation.State == State, Mutation.Action == Action, View.State == State {
 
-        self.weakView = _WeakAnyView(view)
         self.dispatcher = dispatcher
 
-        self.refrectInMain = { [weakView] change in
+        let _view = _WeakView(view)
+        self.refrectInMain = { [_view] change in
             if Thread.isMainThread {
-                weakView.refrect(change: change)
+                _view.refrect(change: change)
             } else {
                 DispatchQueue.main.async {
-                    weakView.refrect(change: change)
+                    _view.refrect(change: change)
                 }
             }
         }
+
         self.store = Store(dispatcher: dispatcher, state: state, mutation: mutation) { [refrectInMain] in refrectInMain($0) }
     }
 
@@ -47,19 +47,17 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
     }
 }
 
-// MARK: - _WeakAnyView
+// MARK: - _WeakView
 
-private struct _WeakAnyView<State: Prex.State> {
+private struct _WeakView<View: Prex.View> {
 
-    private let _refrect: (ValueChange<State>) -> ()
+    private weak var view: View?
 
-    init<View: Prex.View>(_ view: View) where View.State == State {
-        self._refrect = { [weak view] in
-            view?.refrect(change: $0)
-        }
+    init(_ view: View) {
+        self.view = view
     }
 
-    func refrect(change: ValueChange<State>) {
-        _refrect(change)
+    func refrect(change: ValueChange<View.State>) {
+        view?.refrect(change: change)
     }
 }
