@@ -23,7 +23,7 @@
 
 Prex is a framework which makes an unidirectional data flow application possible with MVP architecture.
 
-# Concept
+## Concept
 
 ![](./Images/data-flow.png)
 
@@ -33,7 +33,7 @@ Prex is a framework which makes an unidirectional data flow application possible
 - [Presenter](#presenter)
 - [View](#view)
 
-## State
+### State
 
 ```swift
 struct CounterState: State {
@@ -41,7 +41,7 @@ struct CounterState: State {
 }
 ```
 
-## Action
+### Action
 
 ```swift
 enum CounterAction: Action {
@@ -50,7 +50,7 @@ enum CounterAction: Action {
 }
 ```
 
-## Mutation
+### Mutation
 
 ```swift
 struct CounterMutation: Mutation {
@@ -66,7 +66,7 @@ struct CounterMutation: Mutation {
 }
 ```
 
-## Presenter
+### Presenter
 
 ```swift
 extension Presenter where Action == CounterAction, State == CounterState {
@@ -82,7 +82,7 @@ extension Presenter where Action == CounterAction, State == CounterState {
 }
 ```
 
-## View
+### View
 
 ```swift
 final class CounterViewController: UIViewController {
@@ -109,12 +109,90 @@ extension CounterViewController: View {
 }
 ```
 
-# Example
+## Advanced
 
-## Project
+### Share Store
+
+```swift
+extension Flux where Action == CounterAction, State == CounterState {
+    static let shared = Flux(state: CounterState(), mutation: CounterMutation())
+}
+```
+
+or
+
+```swift
+enum ShardFlux {
+    state let counter = Flux(state: CounterState(), mutation: CounterMutation())
+}
+```
+
+```swift
+final class CounterViewController: UIViewController {
+    private lazy var presenter = {
+        let flux =  Flux<CounterAction, CounterState>.shared
+        return Presenter(view: self, flux: flux)
+    }()
+}
+```
+
+### Testing
+
+## Example
+
+### Project
 
 [Example](./Example)
 
-## Playground
+### Playground
 
 ![](./Images/playground.png)
+
+## Requirements
+- Xcode 9.4.1 or greater
+- iOS 10.0 or greater
+- tvOS 10.0 or greater
+- macOS 10.10 or greater
+- watchOS 3.0 or greater
+- Swift 4.1 or greater
+
+## Installation
+
+### Carthage
+
+If you’re using [Carthage](https://github.com/Carthage/Carthage), simply add Prex to your `Cartfile`:
+
+```ruby
+github "marty-suzuki/Prex"
+```
+
+### CocoaPods
+
+Prex is available through [CocoaPods](https://cocoapods.org). To install it, simply add the following line to your Podfile:
+
+```ruby
+pod 'Prex'
+```
+
+### Swift Package Manager
+
+Prex is available through `Swift Package Manager`. Just add the url of this repository to your `Package.swift`.
+
+```Package.swift
+dependencies: [
+    .package(url: "https://github.com/marty-suzuki/Prex.git", from: "0.1.0")
+]
+```
+
+## Inspired by these unidirectional data flow frameworks
+
+- [VueFlux](https://github.com/ra1028/VueFlux) by [@ra1028](https://github.com/ra1028/VueFlux)
+- [ReactorKit](https://github.com/ReactorKit/ReactorKit) by [@devxoul](https://github.com/devxoul)
+
+## Author
+
+marty-suzuki, s1180183@gmail.com
+
+## License
+
+Prex is available under the MIT license. See the [LICENSE](./LICENSE) file for more info.
