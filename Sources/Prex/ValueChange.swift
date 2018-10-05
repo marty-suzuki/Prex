@@ -15,4 +15,9 @@ public struct ValueChange<T> {
         let newValue = new[keyPath: keyPath]
         return newValue == old?[keyPath: keyPath] ? nil : newValue
     }
+
+    public func valueIfChanged<Value: Equatable>(for keyPath: KeyPath<T, Value>) -> Value.Wrapped? where Value: OptionalType {
+        let newValue = new[keyPath: keyPath]
+        return newValue == old?[keyPath: keyPath] ? nil : newValue.value
+    }
 }

@@ -15,6 +15,10 @@
 		3778593121629EBC00E32652 /* Flux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778592F21629EBC00E32652 /* Flux.swift */; };
 		3778593221629EBC00E32652 /* Flux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778592F21629EBC00E32652 /* Flux.swift */; };
 		3778593321629EBC00E32652 /* Flux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3778592F21629EBC00E32652 /* Flux.swift */; };
+		378774E32167ECE600380E6D /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378774E22167ECE600380E6D /* OptionalType.swift */; };
+		378774E42167ECE600380E6D /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378774E22167ECE600380E6D /* OptionalType.swift */; };
+		378774E52167ECE600380E6D /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378774E22167ECE600380E6D /* OptionalType.swift */; };
+		378774E62167ECE600380E6D /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378774E22167ECE600380E6D /* OptionalType.swift */; };
 		37B51B442162A116001412BF /* PubSub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B51B432162A116001412BF /* PubSub.swift */; };
 		37B51B452162A116001412BF /* PubSub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B51B432162A116001412BF /* PubSub.swift */; };
 		37B51B462162A116001412BF /* PubSub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B51B432162A116001412BF /* PubSub.swift */; };
@@ -60,6 +64,7 @@
 /* Begin PBXFileReference section */
 		3706571A215F79B7003852EF /* ValueChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueChange.swift; sourceTree = "<group>"; };
 		3778592F21629EBC00E32652 /* Flux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flux.swift; sourceTree = "<group>"; };
+		378774E22167ECE600380E6D /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		37B51B432162A116001412BF /* PubSub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSub.swift; sourceTree = "<group>"; };
 		37B51B482162A921001412BF /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		37CA8132215E99A600A448F7 /* Prex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Prex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +164,7 @@
 				37CA8150215E9C5900A448F7 /* Presenter.swift */,
 				3706571A215F79B7003852EF /* ValueChange.swift */,
 				37B51B482162A921001412BF /* Subscription.swift */,
+				378774E22167ECE600380E6D /* OptionalType.swift */,
 			);
 			path = Prex;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 				37B51B442162A116001412BF /* PubSub.swift in Sources */,
 				37CA814D215E9B9F00A448F7 /* State.swift in Sources */,
 				3778593021629EBC00E32652 /* Flux.swift in Sources */,
+				378774E32167ECE600380E6D /* OptionalType.swift in Sources */,
 				37CA8149215E9B1500A448F7 /* Dispatcher.swift in Sources */,
 				3706571B215F79B7003852EF /* ValueChange.swift in Sources */,
 			);
@@ -403,6 +410,7 @@
 				37B51B452162A116001412BF /* PubSub.swift in Sources */,
 				37CA818B215EA0D500A448F7 /* Store.swift in Sources */,
 				3778593121629EBC00E32652 /* Flux.swift in Sources */,
+				378774E42167ECE600380E6D /* OptionalType.swift in Sources */,
 				37CA818D215EA0D500A448F7 /* State.swift in Sources */,
 				3706571C215F79B7003852EF /* ValueChange.swift in Sources */,
 			);
@@ -421,6 +429,7 @@
 				37B51B462162A116001412BF /* PubSub.swift in Sources */,
 				37E93294215EA22E00B80D4E /* Store.swift in Sources */,
 				3778593221629EBC00E32652 /* Flux.swift in Sources */,
+				378774E52167ECE600380E6D /* OptionalType.swift in Sources */,
 				37E93296215EA22E00B80D4E /* State.swift in Sources */,
 				3706571D215F79B7003852EF /* ValueChange.swift in Sources */,
 			);
@@ -439,6 +448,7 @@
 				37B51B472162A116001412BF /* PubSub.swift in Sources */,
 				37E932AB215EA37A00B80D4E /* Store.swift in Sources */,
 				3778593321629EBC00E32652 /* Flux.swift in Sources */,
+				378774E62167ECE600380E6D /* OptionalType.swift in Sources */,
 				37E932AD215EA37A00B80D4E /* State.swift in Sources */,
 				3706571E215F79B7003852EF /* ValueChange.swift in Sources */,
 			);
