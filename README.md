@@ -25,6 +25,10 @@ Prex is a framework which makes an unidirectional data flow application possible
 
 ## Concept
 
+Prex represents **Pre**senter + Flu**x**, therefore it is a combination of Flux and MVP architecture.
+Data flow is unidirectional that like a below figure.
+
+
 ![](./Images/data-flow.png)
 
 - [State](#state)
@@ -122,8 +126,8 @@ extension Flux where Action == CounterAction, State == CounterState {
 or
 
 ```swift
-enum ShardFlux {
-    state let counter = Flux(state: CounterState(), mutation: CounterMutation())
+enum SharedFlux {
+    static let counter = Flux(state: CounterState(), mutation: CounterMutation())
 }
 ```
 
