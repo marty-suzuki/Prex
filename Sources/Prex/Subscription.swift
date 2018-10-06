@@ -6,7 +6,9 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+/// Represents subscription
 public struct Subscription<T> {
+    
     let token: Token
 
     init(token: Token) {

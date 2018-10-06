@@ -6,6 +6,7 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+/// Represents mutation that mutate state by actions
 public protocol Mutation {
     associatedtype Action: Prex.Action
     associatedtype State: Prex.State

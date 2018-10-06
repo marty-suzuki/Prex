@@ -6,8 +6,13 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+
+/// Represent Flux View component
 public protocol View: AnyObject {
     associatedtype State: Prex.State
-    
+
+    /// This method called when state has changed
+    ///
+    /// - Parameter change: Contains new state and old state
     func refrect(change: ValueChange<State>)
 }

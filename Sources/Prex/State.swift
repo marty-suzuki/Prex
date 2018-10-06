@@ -6,4 +6,5 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+/// Represents state
 public protocol State {}

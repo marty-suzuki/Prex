@@ -6,4 +6,6 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+
+/// Represents user actions
 public protocol Action {}

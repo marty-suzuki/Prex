@@ -10,8 +10,10 @@ import Foundation
 
 // MARK: - Store
 
+/// Manages state and mutates state with actions recieved from Dispatcher
 public final class Store<State: Prex.State> {
 
+    /// Current state
     public private(set) var state: State {
         set {
             defer { lock.unlock() }; lock.lock()
@@ -50,11 +52,17 @@ public final class Store<State: Prex.State> {
         self.subscription = _AnySubscription(subscription)
     }
 
+
+    /// Registers listeners as callback
+    ///
+    /// - Parameter callback: Notifies changes of state
     public func addListener(callback: @escaping (ValueChange<State>) -> ()) -> Subscription<State> {
         let token = pubsub.subscribe(callback)
         return Subscription<State>(token: token)
     }
 
+
+    /// Removes listenners with a subscription
     public func removeListener(with subscription: Subscription<State>) {
         pubsub.unsubscribe(subscription.token)
     }
@@ -63,6 +71,7 @@ public final class Store<State: Prex.State> {
 // MARK: - Type Erasure
 
 private struct _AnySubscription {
+    
     let token: Token
 
     init<Action: Prex.Action>(_ subscription: Subscription<Action>) {
@@ -71,6 +80,7 @@ private struct _AnySubscription {
 }
 
 private struct _AnyDispatcher {
+
     private let _unregister: (_AnySubscription) -> ()
 
     init<Action: Prex.Action>(_ dispatcher: Dispatcher<Action>) {

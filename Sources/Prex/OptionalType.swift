@@ -6,6 +6,7 @@
 //  Copyright © 2018 marty-suzuki. All rights reserved.
 //
 
+/// Represents Optional
 public protocol OptionalType {
     associatedtype Wrapped
     var value: Wrapped? { get }

@@ -10,8 +10,10 @@ import Foundation
 
 // MARK: - Presenter
 
+/// Presenter recieves user actions and dispatchs them, finally notifies changes of state to `View`
 open class Presenter<Action: Prex.Action, State: Prex.State> {
 
+    /// Current state
     open var state: State {
         return store.state
     }
@@ -25,11 +27,13 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
         store.removeListener(with: subscription)
     }
 
+    /// Automatically creates Flux components with `State` and `Mutaion`
     public convenience init<View: Prex.View, Mutation: Prex.Mutation>(view: View, state: State, mutation: Mutation) where Mutation.State == State, Mutation.Action == Action, View.State == State {
         let flux = Flux(state: state, mutation: mutation)
         self.init(view: view, flux: flux)
     }
 
+    /// Use this initializer when injects Flux components
     public init<View: Prex.View>(view: View, flux: Flux<Action, State>) where View.State == State {
         self.dispatcher = flux.dispatcher
 
@@ -48,10 +52,12 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
         self.subscription = store.addListener(callback: { [refrectInMain] in refrectInMain($0) })
     }
 
+    /// Dispatches an action
     public func dispatch(_ action: Action) {
         dispatcher.dispatch(action)
     }
 
+    /// Reflects current state to `View` forcefully
     public func refrect() {
         refrectInMain(ValueChange(new: state, old: nil))
     }
