@@ -49,9 +49,9 @@ final class SearchViewController: UIViewController {
         presenter.selectedIndexPath(nil)
     }
 
-    private func refrectEditing() {
+    private func refrectEditing(isEditing: Bool) {
         UIView.animate(withDuration: 0.3) {
-            if self.presenter.state.isEditing {
+            if isEditing {
                 self.view.backgroundColor = .black
                 self.tableView.isUserInteractionEnabled = false
                 self.tableView.alpha = 0.5
@@ -75,25 +75,20 @@ final class SearchViewController: UIViewController {
 extension SearchViewController: View {
     func refrect(change: ValueChange<SearchState>) {
 
-        if change.valueIfChanged(for: \.isEditing) != nil {
-            refrectEditing()
+        if let isEditing = change.valueIfChanged(for: \.isEditing) {
+            refrectEditing(isEditing: isEditing)
         }
 
-        let repositories = change.new.repositories
-        let repositoriesCount = repositories.count
-        if let oldRepositories = change.old?.repositories,
-            repositories.last?.id != oldRepositories.last?.id,
-            repositoriesCount != oldRepositories.count {
-
+        if let new = change.valueIfChanged(for: \.repositories) {
             tableView.reloadData()
 
-            if repositoriesCount > 0, oldRepositories.count > 0 {
-                let lastIndexPath = IndexPath(row: oldRepositories.count - 1, section: 0)
+            if new.count > 0, let old = change.old?.repositories, old.count > 0 {
+                let lastIndexPath = IndexPath(row: old.count - 1, section: 0)
                 tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: false)
             }
         }
 
-        if let repository = change.new.selectedRepository, repository.id != change.old?.selectedRepository?.id {
+        if let repository = change.valueIfChanged(for: \.selectedRepository) {
             showDetail(repository: repository)
         }
     }

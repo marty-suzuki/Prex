@@ -57,3 +57,9 @@ extension GitHub {
         }
     }
 }
+
+extension GitHub.Repository: Equatable {
+    static func == (lhs: GitHub.Repository, rhs: GitHub.Repository) -> Bool {
+        return lhs.id == rhs.id && lhs.updatedAt == rhs.updatedAt
+    }
+}
