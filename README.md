@@ -170,7 +170,7 @@ final class CounterViewController: UIViewController {
 
 ### Testing
 
-*COMING SOON!*
+Description is *COMING SOON!*
 
 
 ## Example
