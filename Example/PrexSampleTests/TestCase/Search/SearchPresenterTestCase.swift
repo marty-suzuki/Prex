@@ -19,7 +19,8 @@ final class SearchPresenterTestCase: XCTestCase {
 
     func testFetchRepositories() {
         let pagination = GitHub.Pagination(next: nil, last: nil, first: nil, prev: nil)
-        dependency.session.searchRepositoriesResult = GitHubSearchResult.success(([], pagination))
+        let repositories = [makeRepository(), makeRepository()]
+        dependency.session.searchRepositoriesResult = GitHubSearchResult.success((repositories, pagination))
 
         var actions: [SearchAction] = []
         let subscription = dependency.dispatcher.register { action in
@@ -33,7 +34,7 @@ final class SearchPresenterTestCase: XCTestCase {
                                                page: page,
                                                session: dependency.session,
                                                makeDate: { date })
-        subscription.cancel()
+        dependency.dispatcher.unregister(subscription)
 
         XCTAssertEqual(actions.count, 6)
 
@@ -49,11 +50,11 @@ final class SearchPresenterTestCase: XCTestCase {
             XCTFail("actions[1] must be .setIsFetching, but it is \(actions[1])")
         }
 
-//        if case let .addRepositories(_repos) = actions[2] {
-//            XCTAssertEqual(_repos, [])
-//        } else {
-//            XCTFail("actions[2] must be .addRepositories, but it is \(actions[2])")
-//        }
+        if case let .addRepositories(_repos) = actions[2] {
+            XCTAssertEqual(_repos, repositories)
+        } else {
+            XCTFail("actions[2] must be .addRepositories, but it is \(actions[2])")
+        }
 
         if case let .setPagination(_pagination) = actions[3] {
             XCTAssertEqual(_pagination?.first, pagination.first)
@@ -115,5 +116,40 @@ extension SearchPresenterTestCase {
         func refrect(change: ValueChange<SearchState>) {
             refrectHandler?(change)
         }
+    }
+
+    private func makeUser() -> GitHub.User {
+        return GitHub.User(login: "marty-suzuki",
+                           id: 1,
+                           nodeID: "nodeID",
+                           avatarURL: URL(string: "https://avatars1.githubusercontent.com")!,
+                           gravatarID: "",
+                           url: URL(string: "https://github.com/marty-suzuki")!,
+                           receivedEventsURL: URL(string: "https://github.com/marty-suzuki")!,
+                           type: "User")
+    }
+
+    private func makeRepository() -> GitHub.Repository {
+        return GitHub.Repository(id: 1,
+                                 nodeID: "nodeID",
+                                 name: "URLEmbeddedView",
+                                 fullName: "marty-suzuki/URLEmbeddedView",
+                                 owner: makeUser(),
+                                 isPrivate: false,
+                                 htmlURL: URL(string: "https://github.com/marty-suzuki/URLEmbeddedView")!,
+                                 description: "URLEmbeddedView automatically caches the object that is confirmed the Open Graph Protocol.",
+                                 isFork: false,
+                                 url: URL(string: "https://github.com/marty-suzuki/URLEmbeddedView")!,
+                                 createdAt: "2016-03-06T03:45:39Z",
+                                 updatedAt: "2018-08-28T04:50:22Z",
+                                 pushedAt: "2018-07-18T10:04:10Z",
+                                 homepage: nil,
+                                 size: 1,
+                                 stargazersCount: 479,
+                                 watchersCount: 479,
+                                 language: "Swift",
+                                 forksCount: 52,
+                                 openIssuesCount: 0,
+                                 defaultBranch: "master")
     }
 }
