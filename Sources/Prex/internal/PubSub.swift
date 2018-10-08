@@ -35,7 +35,7 @@ final class PubSub<T> {
     }
 
     func publish(_ topic: T) {
-        lock.lock();  defer { lock.unlock() }
+        lock.lock(); defer { lock.unlock() }
         handlers.forEach { $0.value(topic) }
     }
 }

@@ -23,9 +23,21 @@ public struct ValueChange<T> {
 
     /// Returns specified value when it contains change
     ///
+    /// - Returns: If old value has changed non-optional value to nil, returns Changed(value: nil)
+    ///            If old value has changed nil to non-optional, returns Changed(value: U)
+    ///            If old value has not changed, returns nil
+    ///
     /// - note: This method optimized to Optional type
-    public func valueIfChanged<Value: Equatable>(for keyPath: KeyPath<T, Value>) -> Value.Wrapped? where Value: OptionalType {
+    public func valueIfChanged<Value: Equatable>(for keyPath: KeyPath<T, Value>) -> Changed<Value>? where Value: OptionalType {
         let newValue = new[keyPath: keyPath]
-        return newValue == old?[keyPath: keyPath] ? nil : newValue.value
+        return newValue == old?[keyPath: keyPath] ? nil : Changed(value: newValue)
+    }
+}
+
+extension ValueChange {
+
+    /// Changed has an Optional Value
+    public struct Changed<U: OptionalType> {
+        public let value: U
     }
 }

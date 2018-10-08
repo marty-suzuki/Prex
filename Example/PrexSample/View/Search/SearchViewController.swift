@@ -88,7 +88,7 @@ extension SearchViewController: View {
             }
         }
 
-        if let repository = change.valueIfChanged(for: \.selectedRepository) {
+        if let repository = change.valueIfChanged(for: \.selectedRepository)?.value {
             showDetail(repository: repository)
         }
     }
