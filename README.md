@@ -26,10 +26,14 @@ Prex is a framework which makes an unidirectional data flow application possible
 ## Concept
 
 Prex represents **Pre**senter + Flu**x**, therefore it is a combination of Flux and MVP architecture.
+Therefore, Reactive frameworks are not used in Prex.
+To reflect a state to a view, using **Passive View Pattern**.
+Flux are used behind of the Presenter.
 Data flow is unidirectional that like a below figure.
 
-
 ![](./Images/data-flow.png)
+
+If you use Prex, you have to implement those components.
 
 - [State](#state)
 - [Action](#action)
@@ -39,6 +43,8 @@ Data flow is unidirectional that like a below figure.
 
 ### State
 
+The State has properties to use in the View and the Presenter.
+
 ```swift
 struct CounterState: State {
     var count: Int = 0
@@ -46,6 +52,9 @@ struct CounterState: State {
 ```
 
 ### Action
+
+The Action represents internal API of your application.
+For example, if you want to increment the count of CounterState, dispatch Action.increment to Dispatcher.
 
 ```swift
 enum CounterAction: Action {
@@ -55,6 +64,8 @@ enum CounterAction: Action {
 ```
 
 ### Mutation
+
+The Mutation is allowed to mutate the State with the Action.
 
 ```swift
 struct CounterMutation: Mutation {
@@ -72,6 +83,10 @@ struct CounterMutation: Mutation {
 
 ### Presenter
 
+The Presenter has a role to connect between View and Flux components.
+If you want to access side effect (API access and so on), you must access them in the Presenter.
+Finally, you dispatch those results with `Presenter.dispatch(_:)`.
+
 ```swift
 extension Presenter where Action == CounterAction, State == CounterState {
     func increment() {
@@ -87,6 +102,10 @@ extension Presenter where Action == CounterAction, State == CounterState {
 ```
 
 ### View
+
+The View displays the State with `View.refrect(change:)`.
+It is called by the Presenter when the State has changed.
+In addition, it calls the Presenter methods by User interactions.
 
 ```swift
 final class CounterViewController: UIViewController {
@@ -113,9 +132,16 @@ extension CounterViewController: View {
 }
 ```
 
-## Advanced
+You can get only specified value that has changed in the State with `ValueChange.valueIfChanged(for:)`.
 
-### Share Store
+## Advanced Usage
+
+### Shared Store
+
+Initializers of the Store and the Dispatcher are not public access level.
+But you can initialize them with `Flux` and inject them with `Presenter.init(view:flux:)`.
+
+This is shared Flux components example.
 
 ```swift
 extension Flux where Action == CounterAction, State == CounterState {
@@ -131,6 +157,8 @@ enum SharedFlux {
 }
 ```
 
+Inject `Flux` like this.
+
 ```swift
 final class CounterViewController: UIViewController {
     private lazy var presenter = {
@@ -142,13 +170,21 @@ final class CounterViewController: UIViewController {
 
 ### Testing
 
+*COMING SOON!*
+
+
 ## Example
 
 ### Project
 
-[Example](./Example)
+You can try Prex with GitHub Repository Search Application [Example](./Example).
+Open PrexSample.xcworkspace and run it!
 
 ### Playground
+
+You can try Prex counter sample with Playground!
+Open Prex.xcworkspace and build `Prex-iOS`.
+Finally, you can run manually in Playground.
 
 ![](./Images/playground.png)
 
