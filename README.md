@@ -103,7 +103,7 @@ extension Presenter where Action == CounterAction, State == CounterState {
 
 ### View
 
-The View displays the State with `View.refrect(change:)`.
+The View displays the State with `View.reflect(change:)`.
 It is called by the Presenter when the State has changed.
 In addition, it calls the Presenter methods by User interactions.
 
@@ -124,7 +124,7 @@ final class CounterViewController: UIViewController {
 }
 
 extension CounterViewController: View {
-    func refrect(change: ValueChange<CounterState>) {
+    func reflect(change: ValueChange<CounterState>) {
         if let count = change.valueIfChanged(for: \.count) {
             counterLabel.text = "\(count)"
         }
