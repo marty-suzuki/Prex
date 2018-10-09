@@ -26,7 +26,7 @@ Prex is a framework which makes an unidirectional data flow application possible
 ## Concept
 
 Prex represents **Pre**senter + Flu**x**, therefore it is a combination of Flux and MVP architecture.
-Therefore, Reactive frameworks are not used in Prex.
+In addition, Reactive frameworks are not used in Prex.
 To reflect a state to a view, using **Passive View Pattern**.
 Flux are used behind of the Presenter.
 Data flow is unidirectional that like a below figure.
