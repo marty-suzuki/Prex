@@ -168,10 +168,124 @@ final class CounterViewController: UIViewController {
 }
 ```
 
+### Presenter Subclass
+
+The Presenter is class that has generic parameters.
+You can create the Presenter subclass like this.
+
+```swift
+final class CounterPresenter: Presenter<CounterAction, CounterState> {
+    init<T: View>(view: T) where T.State == CounterState {
+        let flux = Flux(state: CounterState(), mutation: CounterMutation())
+        super.init(view: view, flux: flux)
+    }
+
+    func increment() {
+        dispatch(.increment)
+    }
+
+    func decrement() {
+        if state.count > 0 {
+            dispatch(.decrement)
+        }
+    }
+}
+```
+
 ### Testing
 
-Description is *COMING SOON!*
+I'll explain how to test with Prex.
+Focus on two test cases in this document.
 
+| 1. Reflection state testing | 2. Create actions testing |
+| :-: | :-: |
+| ![](./Images/reflection-test.png) | ![](./Images/func-test.png) |
+
+Both tests need the View to initialize a Presenter.
+You can create **MockView** like this.
+
+```swift
+final class MockView: View {
+    var refrectParameters: ((ValueChange<CounterState>) -> ())?
+
+    func reflect(change: ValueChange<CounterState>) {
+        refrectParameters?(change)
+    }
+}
+```
+
+
+
+#### 1. Reflection state testing
+
+This test starts with dispatching an Action.
+An action is passed to Mutation, and Mutation mutates state with a received action.
+The Store notifies changes of state, and the Presenter calls reflect method of the View to reflects state.
+Finally, receives state via reflect method parameters of the View.
+
+This is a sample test code.
+
+```swift
+func test_presenter_calls_reflect_of_view_when_state_changed() {
+    let view = MockView()
+    let flux = Flux(state: CounterState(), mutation: CounterMutation())
+    let presenter = Presenter(view: view, flux: flux)
+
+    let expect = expectation(description: "wait receiving ValueChange")
+    view.refrectParameters = { change in
+        let count = change.valueIfChanged(for: \.count)
+        XCTAssertEqual(count, 1)
+        expect.fulfill()
+    }
+
+    flux.dispatcher.dispatch(.increment)
+    wait(for: [expect], timeout: 0.1)
+}
+```
+
+#### 2. Create actions testing
+
+This test starts with calling the Presenter method as dummy user interaction.
+The Presenter accesses side-effect and finally creates an action from that result.
+That action is dispatched to the Dispatcher.
+Finally, receives action via register callback of the Dispatcher.
+
+This is a sample test code.
+
+```swift
+func test_increment_method_of_presenter() {
+    let view = MockView()
+    let flux = Flux(state: CounterState(), mutation: CounterMutation())
+    let presenter = Presenter(view: view, flux: flux)
+
+    let expect = expectation(description: "wait receiving ValueChange")
+    let subscription = flux.dispatcher.register { action in
+        XCTAssertEqual(action, .increment)
+        expect.fulfill()
+    }
+
+    presenter.increment()
+    wait(for: [expect], timeout: 0.1)
+    flux.dispatcher.unregister(subscription)
+}
+```
+
+#### An addition
+
+You can test mutating state like this.
+
+```swift
+func test_mutation() {
+    var state = CounterState()
+    let mutation = CounterMutation()
+
+    mutation.mutate(action: .increment, state: &state)
+    XCTAssertEqual(state.count, 1)
+
+    mutation.mutate(action: .decrement, state: &state)
+    XCTAssertEqual(state.count, 0)
+}
+```
 
 ## Example
 
