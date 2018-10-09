@@ -137,7 +137,8 @@ extension SearchViewController: UITableViewDelegate {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (scrollView.contentSize.height - scrollView.bounds.size.height) <= scrollView.contentOffset.y {
+        if scrollView.contentSize.height > 0 &&
+            (scrollView.contentSize.height - scrollView.bounds.size.height) <= scrollView.contentOffset.y {
             presenter.fetchMoreRepositories()
         }
     }

@@ -1,3 +1,5 @@
-# PrexSample
+# GitHub Repository Search App Sample
 
-Description is *COMING SOON!*
+| SearchViewController | DetailViewController |
+| :-: | :-: |
+| ![](./Images/search.png) | ![](./Images/detail.png) |
