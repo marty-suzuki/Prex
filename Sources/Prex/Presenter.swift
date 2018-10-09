@@ -20,7 +20,7 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
 
     private let dispatcher: Dispatcher<Action>
     private let store: Store<State>
-    private let refrectInMain: (ValueChange<State>) -> ()
+    private let reflectInMain: (ValueChange<State>) -> ()
     private lazy var subscription: Subscription<State> = { fatalError("canceller has not initialized yet") }()
 
     deinit {
@@ -38,18 +38,18 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
         self.dispatcher = flux.dispatcher
 
         let _view = _WeakView(view)
-        self.refrectInMain = { [_view] change in
+        self.reflectInMain = { [_view] change in
             if Thread.isMainThread {
-                _view.refrect(change: change)
+                _view.reflect(change: change)
             } else {
                 DispatchQueue.main.async {
-                    _view.refrect(change: change)
+                    _view.reflect(change: change)
                 }
             }
         }
 
         self.store = flux.store
-        self.subscription = store.addListener(callback: { [refrectInMain] in refrectInMain($0) })
+        self.subscription = store.addListener(callback: { [reflectInMain] in reflectInMain($0) })
     }
 
     /// Dispatches an action
@@ -58,8 +58,8 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
     }
 
     /// Reflects current state to `View` forcefully
-    public func refrect() {
-        refrectInMain(ValueChange(new: state, old: nil))
+    public func reflect() {
+        reflectInMain(ValueChange(new: state, old: nil))
     }
 }
 
@@ -73,7 +73,7 @@ private struct _WeakView<View: Prex.View> {
         self.view = view
     }
 
-    func refrect(change: ValueChange<View.State>) {
-        view?.refrect(change: change)
+    func reflect(change: ValueChange<View.State>) {
+        view?.reflect(change: change)
     }
 }

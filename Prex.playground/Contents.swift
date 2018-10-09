@@ -41,7 +41,7 @@ final class CounterViewController: UIViewController {
 
         view.backgroundColor = .white
 
-        presenter.refrect()
+        presenter.reflect()
 
         // setup stackView
         do {
@@ -75,7 +75,7 @@ final class CounterViewController: UIViewController {
 // MARK: - Prex implementation
 
 extension CounterViewController: View {
-    func refrect(change: ValueChange<CounterState>) {
+    func reflect(change: ValueChange<CounterState>) {
 
         if let count = change.valueIfChanged(for: \.count) {
             counterLabel.text = "\(count)"

@@ -43,7 +43,7 @@ final class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: View {
-    func refrect(change: ValueChange<DetailState>) {
+    func reflect(change: ValueChange<DetailState>) {
 
         if let url = change.valueIfChanged(for: \.htmlURL)?.value {
             webview.load(URLRequest(url: url))

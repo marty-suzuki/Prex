@@ -73,7 +73,7 @@ final class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: View {
-    func refrect(change: ValueChange<SearchState>) {
+    func reflect(change: ValueChange<SearchState>) {
 
         if let isEditing = change.valueIfChanged(for: \.isEditing) {
             refrectEditing(isEditing: isEditing)

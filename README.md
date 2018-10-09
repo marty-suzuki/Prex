@@ -220,7 +220,7 @@ Prex is available through `Swift Package Manager`. Just add the url of this repo
 
 ```Package.swift
 dependencies: [
-    .package(url: "https://github.com/marty-suzuki/Prex.git", from: "0.1.0")
+    .package(url: "https://github.com/marty-suzuki/Prex.git", from: "0.1.1")
 ]
 ```
 

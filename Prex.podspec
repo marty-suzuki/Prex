@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "Prex"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "Prex is unidirectional data flow architecture with MVP and Flux"
   s.homepage     = "https://github.com/marty-suzuki/Prex"
   s.license      = { :type => "MIT", :file => "LICENSE" }
