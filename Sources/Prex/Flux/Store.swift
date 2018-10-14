@@ -27,12 +27,12 @@ public final class Store<State: Prex.State> {
 
     private var _state: State {
         didSet {
-            pubsub.publish(ValueChange(new: _state, old: oldValue))
+            pubsub.publish(StateChange(new: _state, old: oldValue))
         }
     }
 
     private let lock: NSLocking = NSRecursiveLock()
-    private let pubsub = PubSub<ValueChange<State>>()
+    private let pubsub = PubSub<StateChange<State>>()
     private let dispatcher: _AnyDispatcher
     private lazy var subscription: _AnySubscription = { fatalError("subscription has not initialized yet") }()
 
@@ -56,7 +56,7 @@ public final class Store<State: Prex.State> {
     /// Registers listeners as callback
     ///
     /// - Parameter callback: Notifies changes of state
-    public func addListener(callback: @escaping (ValueChange<State>) -> ()) -> Subscription<State> {
+    public func addListener(callback: @escaping (StateChange<State>) -> ()) -> Subscription<State> {
         let token = pubsub.subscribe(callback)
         return Subscription<State>(token: token)
     }

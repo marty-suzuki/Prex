@@ -14,5 +14,5 @@ public protocol View: AnyObject {
     /// This method called when state has changed
     ///
     /// - Parameter change: Contains new state and old state
-    func reflect(change: ValueChange<State>)
+    func reflect(change: StateChange<State>)
 }

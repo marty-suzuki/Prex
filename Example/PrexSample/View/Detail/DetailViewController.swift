@@ -43,13 +43,13 @@ final class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: View {
-    func reflect(change: ValueChange<DetailState>) {
+    func reflect(change: StateChange<DetailState>) {
 
-        if let url = change.valueIfChanged(for: \.htmlURL)?.value {
+        if let url = change.changedProperty(for: \.htmlURL)?.value {
             webview.load(URLRequest(url: url))
         }
 
-        if let progress = change.valueIfChanged(for: \.progress) {
+        if let progress = change.changedProperty(for: \.progress)?.value {
             let params = presenter.progressUpdateParams(from: progress)
             UIView.animate(withDuration: 0.3) {
                 self.progressView.alpha = params.alpha
@@ -57,7 +57,7 @@ extension DetailViewController: View {
             }
         }
 
-        if let name = change.valueIfChanged(for: \.name) {
+        if let name = change.changedProperty(for: \.name)?.value {
             navigationItem.title = name
         }
     }

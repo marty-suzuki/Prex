@@ -124,8 +124,8 @@ final class CounterViewController: UIViewController {
 }
 
 extension CounterViewController: View {
-    func reflect(change: ValueChange<CounterState>) {
-        if let count = change.valueIfChanged(for: \.count) {
+    func reflect(change: StateChange<CounterState>) {
+        if let count = change.changedProperty(for: \.count)?.value {
             counterLabel.text = "\(count)"
         }
     }
@@ -206,9 +206,9 @@ You can create **MockView** like this.
 
 ```swift
 final class MockView: View {
-    var refrectParameters: ((ValueChange<CounterState>) -> ())?
+    var refrectParameters: ((StateChange<CounterState>) -> ())?
 
-    func reflect(change: ValueChange<CounterState>) {
+    func reflect(change: StateChange<CounterState>) {
         refrectParameters?(change)
     }
 }
@@ -233,7 +233,7 @@ func test_presenter_calls_reflect_of_view_when_state_changed() {
 
     let expect = expectation(description: "wait receiving ValueChange")
     view.refrectParameters = { change in
-        let count = change.valueIfChanged(for: \.count)
+        let count = change.changedProperty(for: \.count)?.value
         XCTAssertEqual(count, 1)
         expect.fulfill()
     }
@@ -334,7 +334,7 @@ Prex is available through `Swift Package Manager`. Just add the url of this repo
 
 ```Package.swift
 dependencies: [
-    .package(url: "https://github.com/marty-suzuki/Prex.git", from: "0.1.1")
+    .package(url: "https://github.com/marty-suzuki/Prex.git", from: "0.2.0")
 ]
 ```
 

@@ -20,7 +20,7 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
 
     private let dispatcher: Dispatcher<Action>
     private let store: Store<State>
-    private let reflectInMain: (ValueChange<State>) -> ()
+    private let reflectInMain: (StateChange<State>) -> ()
     private lazy var subscription: Subscription<State> = { fatalError("canceller has not initialized yet") }()
 
     deinit {
@@ -59,7 +59,7 @@ open class Presenter<Action: Prex.Action, State: Prex.State> {
 
     /// Reflects current state to `View` forcefully
     public func reflect() {
-        reflectInMain(ValueChange(new: state, old: nil))
+        reflectInMain(StateChange(new: state, old: nil))
     }
 }
 
@@ -73,7 +73,7 @@ private struct _WeakView<View: Prex.View> {
         self.view = view
     }
 
-    func reflect(change: ValueChange<View.State>) {
+    func reflect(change: StateChange<View.State>) {
         view?.reflect(change: change)
     }
 }

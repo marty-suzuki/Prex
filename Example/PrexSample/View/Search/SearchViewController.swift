@@ -73,13 +73,13 @@ final class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: View {
-    func reflect(change: ValueChange<SearchState>) {
+    func reflect(change: StateChange<SearchState>) {
 
-        if let isEditing = change.valueIfChanged(for: \.isEditing) {
+        if let isEditing = change.changedProperty(for: \.isEditing)?.value {
             refrectEditing(isEditing: isEditing)
         }
 
-        if let new = change.valueIfChanged(for: \.repositories) {
+        if let new = change.changedProperty(for: \.repositories)?.value {
             tableView.reloadData()
 
             if new.count > 0, let old = change.old?.repositories, old.count > 0 {
@@ -88,7 +88,7 @@ extension SearchViewController: View {
             }
         }
 
-        if let repository = change.valueIfChanged(for: \.selectedRepository)?.value {
+        if let repository = change.changedProperty(for: \.selectedRepository)?.value {
             showDetail(repository: repository)
         }
     }
