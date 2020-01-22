@@ -125,14 +125,14 @@ final class CounterViewController: UIViewController {
 
 extension CounterViewController: View {
     func reflect(change: StateChange<CounterState>) {
-        if let count = change.changedProperty(for: \.count)?.value {
+        if let count = change.count?.value {
             counterLabel.text = "\(count)"
         }
     }
 }
 ```
 
-You can get only specified value that has changed in the State with `ValueChange.valueIfChanged(for:)`.
+You can get only specified value that has changed in the State from `StateChange.changedProperty(for:)`.
 
 ## Advanced Usage
 
