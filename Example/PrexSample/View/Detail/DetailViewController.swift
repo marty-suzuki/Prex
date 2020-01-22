@@ -45,11 +45,11 @@ final class DetailViewController: UIViewController {
 extension DetailViewController: View {
     func reflect(change: StateChange<DetailState>) {
 
-        if let url = change.changedProperty(for: \.htmlURL)?.value {
+        if let url = change.htmlURL?.value {
             webview.load(URLRequest(url: url))
         }
 
-        if let progress = change.changedProperty(for: \.progress)?.value {
+        if let progress = change.progress?.value {
             let params = presenter.progressUpdateParams(from: progress)
             UIView.animate(withDuration: 0.3) {
                 self.progressView.alpha = params.alpha

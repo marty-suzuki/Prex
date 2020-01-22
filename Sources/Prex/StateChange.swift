@@ -7,6 +7,7 @@
 //
 
 /// Contains new and old value
+@dynamicMemberLookup
 public struct StateChange<State: Prex.State> {
 
     /// New value of changes
@@ -17,6 +18,10 @@ public struct StateChange<State: Prex.State> {
 
     /// Returns specified value when it has changed
     public func changedProperty<Value: Equatable>(for keyPath: KeyPath<State, Value>) -> PropertyChange<Value>? {
+        self[dynamicMember: keyPath]
+    }
+
+    public subscript<Value: Equatable>(dynamicMember keyPath: KeyPath<State, Value>) -> PropertyChange<Value>? {
         let newValue = new[keyPath: keyPath]
         return newValue == old?[keyPath: keyPath] ? nil : PropertyChange(value: newValue)
     }

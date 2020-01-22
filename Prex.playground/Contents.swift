@@ -77,7 +77,7 @@ final class CounterViewController: UIViewController {
 extension CounterViewController: View {
     func reflect(change: StateChange<CounterState>) {
 
-        if let count = change.changedProperty(for: \.count)?.value {
+        if let count = change.count?.value {
             counterLabel.text = "\(count)"
         }
     }
